@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Cart</title>
+</head>
+<body>
+
+<th:block th:if="${#lists.isEmpty(data.getDataList())}" >
+    <span>データなし</span>
+    <br>
+</th:block>
+
+<input type="button" onclick="location.href='/itemlist'"value="戻る">
+<dl>
+
+<th:block th:if="!${#lists.isEmpty(data.getDataList())}" >
+  <th:block th:each="order: ${data.getDataList()}">
+    <span class="itemName"       th:text="'・' + ${order}"></span>
+    <br>
+  </th:block>
+</th:block>
+
+</dl>
+
+</body>
+</html>

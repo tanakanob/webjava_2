@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>ItemList</title>
+<link href="/css/card.css" th:href="@{/css/card.css}" rel="stylesheet"></link>
+</head>
+
+<body>
+<script>
+
+var isEmpty = function(obj){
+  return !Object.keys(obj).length;
+}
+
+var shouldSubmit = function(val) {
+  if (!isEmpty(form.cookName.value) && !isEmpty(form.foodstuffName.value) && !isEmpty(form.customerName.value)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+var submit = function(val) {
+  alert("「" + form.cookName.value + "」、「" + form.foodstuffName.value + "」、「" + form.customerName.value + "」で確定しました。")
+  form.submit();
+}
+
+var setCookName = function(val) {
+  form.cookName.value = val;
+
+  if (shouldSubmit()) {
+    submit();
+  } else {
+    alert("料理人に「" + form.cookName.value + "」を設定しました。");
+  }
+}
+
+var setFoodstuffName = function(val) {
+  form.foodstuffName.value = val;
+
+  if (shouldSubmit()) {
+    submit();
+  } else {
+    alert("食材に「" + form.foodstuffName.value + "」を設定しました。");
+  }
+}
+
+var setCcustomerName = function(val) {
+  form.customerName.value = val;
+
+  if (shouldSubmit()) {
+    submit();
+  } else {
+    alert("お客に「" + form.customerName.value + "」を設定しました。");
+  }
+}
+
+</script>
+
+<form action="#" name = "form" th:action="@{/itemlist}" th:object="${listForm}" method="post">
+<input type="hidden" name="cookName"/>
+<input type="hidden" name="foodstuffName"/>
+<input type="hidden" name="customerName"/>
+
+<input type="button" onclick="location.href='/cart'"value="履歴">
+
+<h2>料理人を選ぶ</h2>
+
+<div class="card-list">
+<th:block th:each="cook: ${cookList}">
+<section class="card" th:onclick="'setCookName(\''+ ${cook.getName()} +'\')'">
+  <div class="img_block">
+  <img class="card-img" th:src="${cook.getImageSrc()}" alt="">
+  </div>
+  <div class="card-content">
+  <h1 class="card-title" th:text="${cook.getName()}"></h1>
+  </div>
+</section>
+</th:block>
+</div>
+
+<h2>食材を選ぶ</h2>
+<div class="card-list">
+<th:block th:each="foodstuff: ${foodstuffList}">
+<section class="card" th:onclick="'setFoodstuffName(\''+ ${foodstuff.getName()} +'\')'">
+  <div class="img_block">
+  <img class="card-img" th:src="${foodstuff.getImageSrc()}" alt="">
+  </div>
+  <div class="card-content">
+  <h1 class="card-title" th:text="${foodstuff.getName()}"></h1>
+  </div>
+  </section>
+</th:block>
+</div>
+
+<h2>お客を選ぶ</h2>
+
+<div class="card-list">
+<th:block th:each="customer: ${customerList}">
+<section class="card" th:onclick="'setCcustomerName(\''+ ${customer.getName()} +'\')'">
+  <div class="img_block">
+  <img class="card-img" th:src="${customer.getImageSrc()}" alt="">
+  </div>
+  <div class="card-content">
+  <h1 class="card-title" th:text="${customer.getName()}"></h1>
+  </div>
+  </section>
+</th:block>
+</div>
+
+</form>
+
+</body>
+</html>
